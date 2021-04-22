@@ -1,0 +1,52 @@
+<mat-card class="currency-form">
+        <div class="row" fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutAlign="center center">
+            <mat-card-title>Currency Calculator</mat-card-title>
+        </div>
+    <mat-card-content>
+        <form [formGroup]="currencyConverterForm" novalidate>
+            <div class="row" fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px">
+
+                <div fxFlex="25">
+                    <mat-form-field>
+                        <mat-label>Amount</mat-label>
+                        <input type="number" matInput formControlName="amount">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25">
+                    <mat-form-field>
+                        <mat-label>From Currency</mat-label>
+                        <mat-select formControlName="fromCurrencyField" required>
+                            <mat-option *ngFor="let fromCurrency of symbolsCurr | keyvalue" [value]="fromCurrency.key">
+                                {{fromCurrency.key}} : {{fromCurrency.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25"  fxFlex.xs="15">
+                    <mat-form-field>
+                        <mat-label>To Currency</mat-label>
+                        <input type="text" matInput formControlName="toCurrencyField" readonly>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25"  fxFlex.xs="15">
+                    <mat-form-field>
+                        <mat-label>By Date</mat-label>
+                        <input matInput [matDatepicker]="picker" [max]="maxDate" (focus)="picker.open()" formControlName="datefield">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            
+            </div>
+            <div class="row" fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutAlign="center center">
+                <button mat-raised-button color="primary" (click)="convert()" [disabled]="currencyConverterForm.invalid">Convert</button>
+            </div>
+        </form>
+        <div *ngIf="showCalculatedText" class="result-block" fxLayout="row" fxLayout.xs="column" fxLayoutGap="25px" fxLayoutAlign="center center">
+            {{currencyConverterForm.controls.amount.value}} {{currencyConverterForm.controls.fromCurrencyField.value}} = {{calculatedExchangeRate}} EUR
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
+
